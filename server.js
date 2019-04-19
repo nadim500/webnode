@@ -1,5 +1,7 @@
 const express = require('express');
 const http = require('http');
+const cors = require('cors');
+const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
 const constantes = require('./config/constantes');
@@ -9,6 +11,9 @@ const cleanup = require('./config/cleanup');
 cleanup.cleanup(() => console.log('app terminated'));
 
 const app = express();
+app.use(cors());
+
+app.use(morgan('dev'));
 
 // Parsers for POST data
 app.use(bodyParser.json());
@@ -19,7 +24,7 @@ app.use(express.static(path.join(__dirname, './dist')));
 
 // V1 ROUTES
 // Admin API routes
-app.use('/v1', require('./routes/producto'), function (req, res) {
+app.use('/v1/test', require('./routes/v1/test'), function (req, res) {
   res.sendStatus(404);
 });
 
